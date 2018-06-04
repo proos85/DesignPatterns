@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factories\1_Creating_Basic_Pizza\Example.cs" />
+    <Compile Include="Factories\4_Abstract_Factory\Example.cs" />
+    <Compile Include="Factories\3_Factory_Method\Example.cs" />
     <Compile Include="Factories\2_Simple_Factory\Example.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

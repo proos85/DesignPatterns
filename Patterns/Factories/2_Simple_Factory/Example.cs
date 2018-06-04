@@ -37,7 +37,7 @@ namespace Patterns.Factories._2_Simple_Factory
 
             public Pizza OrderPizza(PizzaType type)
             {
-                Pizza pizza = _factory.CreatePizza(type);
+                var pizza = _factory.CreatePizza(type);
                 pizza.Prepare();
                 pizza.Bake();
                 pizza.Cut();
