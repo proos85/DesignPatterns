@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
-namespace Patterns.Decorator._4_Abstract_Factory
+namespace Patterns.Decorator._3_Apply_Decorated_Ingredients_With_Builder
 {
     public static class Example
     {
@@ -13,7 +14,7 @@ namespace Patterns.Decorator._4_Abstract_Factory
 
             Console.WriteLine();
 
-            // And order another chicago style pizza
+            // And a chicago style pizza
             OrderChicagoStylePizza();
 
             Console.ReadKey();
@@ -21,16 +22,35 @@ namespace Patterns.Decorator._4_Abstract_Factory
 
         private static void OrderNyStylePizza()
         {
-            var nyPizzaStore = new NyPizzaStore();
-            var pizza = nyPizzaStore.OrderPizza(PizzaType.Cheese);
+            var pizza = new NyPizzaStorePizzaBuilder()
+                .CreateBasicPizza(PizzaType.Cheese)
+                .AddMushrooms()
+                .AddMushrooms()
+                .AddOnions()
+                .AddOnions()
+                .BuildPizza();
 
             Console.WriteLine(pizza);
         }
 
         private static void OrderChicagoStylePizza()
         {
-            var chicagoPizzaStore = new ChicagoPizzaStore();
-            var pizza = chicagoPizzaStore.OrderPizza(PizzaType.Salami);
+            var pizza = new ChicagoPizzaStorePizzaBuilder()
+                .CreateBasicPizza(PizzaType.Cheese)
+                .AddMushrooms()
+                .AddMushrooms()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .AddOnions()
+                .BuildPizza();
 
             Console.WriteLine(pizza);
         }
@@ -111,12 +131,13 @@ namespace Patterns.Decorator._4_Abstract_Factory
 
         private abstract class Pizza
         {
-            protected string Name { private get; set; }
-            protected IDough Dough { get; set; }
-            protected ISauce Sauce { get; set; }
-            protected ICheese Cheese { get; set; }
-            protected IClams Clams { get; set; }
-            protected IList<IVeggies> Veggies { get; set; } = new List<IVeggies>();
+            public virtual string Name { get; set; }
+            public virtual IDough Dough { get; set; }
+            public virtual ISauce Sauce { get; set; }
+            public virtual ICheese Cheese { get; set; }
+            public virtual IClams Clams { get; set; }
+            public virtual IList<IVeggies> Veggies { get; set; } = new List<IVeggies>();
+            public virtual double Cost { get; set; }
 
             public void Prepare()
             {
@@ -143,20 +164,21 @@ namespace Patterns.Decorator._4_Abstract_Factory
 
             public override string ToString()
             {
-                return $"{Environment.NewLine}\tPizza: '{Name}{Environment.NewLine}" +
+                return $"{Environment.NewLine}\tPizza: '{Name}'{Environment.NewLine}" +
                        $"\tDough: {(Dough != null ? Dough.GetType().Name : "-")}{Environment.NewLine}" +
                        $"\tSauce: {(Sauce != null ? Sauce.GetType().Name : "-")}{Environment.NewLine}" +
                        $"\tCheese: {(Cheese != null ? Cheese.GetType().Name : "-")}{Environment.NewLine}" +
                        $"\tClams: {(Clams != null ? Clams.GetType().Name : "-")}{Environment.NewLine}" +
-                       $"\tVeggies: {string.Join(",", Veggies.Select(x => x.GetType().Name))}'";
+                       $"\tVeggies: {(Veggies.Any() ? string.Join(",", Veggies.Select(x => x.GetType().Name)) : "-")}{Environment.NewLine}" +
+                       $"\tCost: {Cost.ToString("C2", new CultureInfo("nl-NL"))}";
             }
         }
 
         #endregion
-
+        
         #region NY Style pizza
 
-        private class NyStyleCheesePizza : Pizza
+        private sealed class NyStyleCheesePizza : Pizza
         {
             public NyStyleCheesePizza(IPizzaIngredientFactory ingredientFactory)
             {
@@ -164,11 +186,11 @@ namespace Patterns.Decorator._4_Abstract_Factory
                 Dough = ingredientFactory.CreateDough();
                 Sauce = ingredientFactory.CreateSauce();
                 Cheese = ingredientFactory.CreateCheese();
-                Veggies = ingredientFactory.CreateVeggies();
+                Cost = 5.5;
             }
         }
 
-        private class NyStyleSalamiPizza : Pizza
+        private sealed class NyStyleSalamiPizza : Pizza
         {
             public NyStyleSalamiPizza(IPizzaIngredientFactory ingredientFactory)
             {
@@ -176,6 +198,8 @@ namespace Patterns.Decorator._4_Abstract_Factory
                 Dough = ingredientFactory.CreateDough();
                 Sauce = ingredientFactory.CreateSauce();
                 Cheese = ingredientFactory.CreateCheese();
+                Veggies = ingredientFactory.CreateVeggies();
+                Cost = 7.5;
             }
         }
 
@@ -183,7 +207,7 @@ namespace Patterns.Decorator._4_Abstract_Factory
 
         #region Chicago Style pizza
 
-        private class ChicagoStyleCheesePizza : Pizza
+        private sealed class ChicagoStyleCheesePizza : Pizza
         {
             public ChicagoStyleCheesePizza(IPizzaIngredientFactory ingredientFactory)
             {
@@ -192,6 +216,7 @@ namespace Patterns.Decorator._4_Abstract_Factory
                 Sauce = ingredientFactory.CreateSauce();
                 Cheese = ingredientFactory.CreateCheese();
                 Clams = ingredientFactory.CreateClams();
+                Cost = 10;
             }
 
             public override void Cut()
@@ -200,7 +225,7 @@ namespace Patterns.Decorator._4_Abstract_Factory
             }
         }
 
-        private class ChicagoStyleSalamiPizza : Pizza
+        private sealed class ChicagoStyleSalamiPizza : Pizza
         {
             public ChicagoStyleSalamiPizza(IPizzaIngredientFactory ingredientFactory)
             {
@@ -209,6 +234,7 @@ namespace Patterns.Decorator._4_Abstract_Factory
                 Cheese = ingredientFactory.CreateCheese();
                 Veggies = ingredientFactory.CreateVeggies();
                 Clams = ingredientFactory.CreateClams();
+                Cost = 12;
             }
 
             public override void Cut()
@@ -362,6 +388,164 @@ namespace Patterns.Decorator._4_Abstract_Factory
 
         public class Mushroom : IVeggies
         {
+        }
+
+        #endregion
+
+        #region Pizza Decorator
+
+        private class PizzaIngredientDecorator: Pizza
+        {
+            private Pizza _pizza;
+
+            public override string Name
+            {
+                get => _pizza.Name;
+                set => _pizza.Name = value;
+            }
+            public override IDough Dough
+            {
+                get => _pizza.Dough;
+                set => _pizza.Dough = value;
+            }
+            public override ISauce Sauce
+            {
+                get => _pizza.Sauce;
+                set => _pizza.Sauce = value;
+            }
+            public override ICheese Cheese
+            {
+                get => _pizza.Cheese;
+                set => _pizza.Cheese = value;
+            }
+            public override IClams Clams
+            {
+                get => _pizza.Clams;
+                set => _pizza.Clams = value;
+            }
+            public override IList<IVeggies> Veggies
+            {
+                get => _pizza.Veggies;
+                set => _pizza.Veggies = value;
+            }
+            public override double Cost
+            {
+                get => _pizza.Cost;
+                set => _pizza.Cost = value;
+            }
+
+            protected PizzaIngredientDecorator(Pizza pizza)
+            {
+                _pizza = pizza;
+            }
+
+            public Pizza SetDecoratedPizza(Pizza pizza)
+            {
+                _pizza = pizza;
+                return this;
+            }
+
+            protected void AddExtraIngredient(
+                IVeggies ingredient,
+                double increasedCost)
+            {
+                _pizza?.Veggies.Add(ingredient);
+                IncreateCost(increasedCost);
+            }
+
+            public override string ToString()
+            {
+                return _pizza.ToString();
+            }
+
+            private void IncreateCost(double value)
+            {
+                if (_pizza != null)
+                {
+                    var currentCost = _pizza.Cost;
+                    var increasedCost = currentCost + value;
+                    _pizza.Cost = increasedCost;
+                }
+            }
+        }
+
+        private class ExtraMushroom: PizzaIngredientDecorator
+        {
+            public ExtraMushroom(Pizza pizza) : base(pizza)
+            {
+                AddExtraIngredient(new Mushroom(), .5);
+            }
+        }
+
+        private class ExtraOnion: PizzaIngredientDecorator
+        {
+            public ExtraOnion(Pizza pizza) : base(pizza)
+            {
+                AddExtraIngredient(new Onion(), 1);
+            }
+        }
+
+        #endregion
+
+        #region Pizza Builder
+
+        private interface IPizzaStorePizzaBuilder
+        {
+            IPizzaStorePizzaBuilder CreateBasicPizza(PizzaType type);
+
+            IPizzaStorePizzaBuilder AddMushrooms();
+
+            IPizzaStorePizzaBuilder AddOnions();
+
+            Pizza BuildPizza();
+        }
+
+        private abstract class PizzaStorePizzaBuilder : IPizzaStorePizzaBuilder
+        {
+            private readonly PizzaStore _pizzaStore;
+            private Pizza _thePizza;
+
+            protected PizzaStorePizzaBuilder(PizzaStore pizzaStore)
+            {
+                _pizzaStore = pizzaStore;
+            }
+            
+            public IPizzaStorePizzaBuilder CreateBasicPizza(PizzaType type)
+            {
+                _thePizza = _pizzaStore.OrderPizza(type);
+                return this;
+            }
+
+            public IPizzaStorePizzaBuilder AddMushrooms()
+            {
+                _thePizza = new ExtraMushroom(_thePizza);
+                return this;
+            }
+
+            public IPizzaStorePizzaBuilder AddOnions()
+            {
+                _thePizza = new ExtraOnion(_thePizza);
+                return this;
+            }
+
+            public Pizza BuildPizza()
+            {
+                return _thePizza;
+            }
+        }
+
+        private class NyPizzaStorePizzaBuilder : PizzaStorePizzaBuilder
+        {
+            public NyPizzaStorePizzaBuilder() : base(new NyPizzaStore())
+            {
+            }
+        }
+
+        private class ChicagoPizzaStorePizzaBuilder : PizzaStorePizzaBuilder
+        {
+            public ChicagoPizzaStorePizzaBuilder() : base(new ChicagoPizzaStore())
+            {
+            }
         }
 
         #endregion
