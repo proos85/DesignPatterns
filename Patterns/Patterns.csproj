@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decorator\1_Creating_Basic_Pizza\Example.cs" />
+    <Compile Include="Decorator\2_Simple_Factory\Example.cs" />
+    <Compile Include="Decorator\3_Factory_Method\Example.cs" />
+    <Compile Include="Decorator\4_Abstract_Factory\Example.cs" />
     <Compile Include="Factories\1_Creating_Basic_Pizza\Example.cs" />
     <Compile Include="Factories\4_Abstract_Factory\Example.cs" />
     <Compile Include="Factories\3_Factory_Method\Example.cs" />
