@@ -61,12 +61,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Testing\PizzaStorePizzaBuilders\Ny\NyPizzaStorePizzaBuilder.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="OrderNyStylePizzaExample_Constructor_Should.cs" />
+    <Compile Include="OrderNyStylePizzaExample_PlayOrderPizzaExample_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Patterns\Patterns.csproj">
+      <Project>{8f4211ea-f972-4e1d-951f-a5313264737b}</Project>
+      <Name>Patterns</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
