@@ -33,8 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Testing\1_With_Testing\Example.cs" />
     <Compile Include="Decorator\1_Decorated_Classes\Example.cs" />
     <Compile Include="Decorator\3_Apply_Decorated_Ingredients_With_Builder\Example.cs" />
     <Compile Include="Decorator\2_Correct_Use_Of_Decorator\Example.cs" />
@@ -52,9 +66,60 @@
     <Compile Include="Factories\2_Simple_Factory\Example.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Testing\1_With_Testing\Factories\PizzaIngredientsFactories\Chicago\ChicagoPizzaIngredientFactory.cs" />
+    <Compile Include="Testing\1_With_Testing\Factories\PizzaIngredientsFactories\Chicago\IChicagoPizzaIngredientFactory.cs" />
+    <Compile Include="Testing\1_With_Testing\Factories\PizzaIngredientsFactories\Ny\INyPizzaIngredientFactory.cs" />
+    <Compile Include="Testing\1_With_Testing\Factories\PizzaIngredientsFactories\Ny\NyPizzaIngredientFactory.cs" />
+    <Compile Include="Testing\1_With_Testing\IoC\Bindings\DependencyBindings.cs" />
+    <Compile Include="Testing\1_With_Testing\IoC\DependencyContainer.cs" />
+    <Compile Include="Testing\1_With_Testing\IOrderChicagoStylePizzaExample.cs" />
+    <Compile Include="Testing\1_With_Testing\IOrderNyStylePizzaExample.cs" />
+    <Compile Include="Testing\1_With_Testing\IOrderPizzaExample.cs" />
+    <Compile Include="Testing\1_With_Testing\OrderChicagoStylePizzaExample.cs" />
+    <Compile Include="Testing\1_With_Testing\OrderNyStylePizzaExample.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaIngredientDecorators\ExtraOnion.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStorePizzaBuilders\Chicago\ChicagoPizzaStorePizzaBuilder.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStorePizzaBuilders\Chicago\IChicagoPizzaStorePizzaBuilder.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStorePizzaBuilders\Ny\INyPizzaStorePizzaBuilder.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStorePizzaBuilders\Ny\NyPizzaStorePizzaBuilder.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStores\Chicago\ChicagoPizzaStore.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStores\Chicago\IChicagoPizzaStore.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStores\IPizzaStore.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStores\Ny\INyPizzaStore.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStores\Ny\NyPizzaStore.cs" />
+    <Compile Include="Testing\1_With_Testing\Pizzas\PizzaType.cs" />
+    <Compile Include="Testing\1_With_Testing\Factories\PizzaIngredientsFactories\IPizzaIngredientFactory.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Cheeses\ICheese.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Cheeses\MozarellaCheese.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Cheeses\ReggianoCheese.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Clams\FreshClams.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Clams\FrozenClams.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Clams\IClams.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Doughes\IDough.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Doughes\ThickCrustDough.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Doughes\ThinCrustDough.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Sauces\ISauce.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Sauces\MarinaraSauce.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Sauces\PlumTomatoSauce.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Veggies\Garlic.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Veggies\IVeggies.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Veggies\Mushroom.cs" />
+    <Compile Include="Testing\1_With_Testing\Ingredients\Veggies\Onion.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaIngredientDecorators\ExtraMushroom.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaIngredientDecorators\PizzaIngredientDecorator.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStorePizzaBuilders\IPizzaStorePizzaBuilder.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStorePizzaBuilders\PizzaStorePizzaBuilderBase.cs" />
+    <Compile Include="Testing\1_With_Testing\PizzaStores\PizzaStoreBase.cs" />
+    <Compile Include="Testing\1_With_Testing\Pizzas\ChicagoStyleCheesePizza.cs" />
+    <Compile Include="Testing\1_With_Testing\Pizzas\ChicagoStyleSalamiPizza.cs" />
+    <Compile Include="Testing\1_With_Testing\Pizzas\NyStyleCheesePizza.cs" />
+    <Compile Include="Testing\1_With_Testing\Pizzas\NyStyleSalamiPizza.cs" />
+    <Compile Include="Testing\1_With_Testing\Pizzas\Pizza.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

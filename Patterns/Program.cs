@@ -19,12 +19,13 @@ namespace Patterns
         private static void RunFactoryPaternExamples()
         {
             //RunFactoryExamples();
-            RunDecoratorExamples();
+            //RunDecoratorExamples();
+            RunFinalWithTestingExamples();
         }
 
         private static void RunFactoryExamples()
         {
-            Factories._1_Creating_Basic_Pizza.Example.Run();
+            //Factories._1_Creating_Basic_Pizza.Example.Run();
             //Factories._2_Simple_Factory.Example.Run();
             //Factories._3_Factory_Method.Example.Run();
             //Factories._4_Abstract_Factory.Example.Run();
@@ -34,7 +35,12 @@ namespace Patterns
         {
             //Decorator._1_Decorated_Classes.Example.Run();
             //Decorator._2_Correct_Use_Of_Decorator.Example.Run();
-            Decorator._3_Apply_Decorated_Ingredients_With_Builder.Example.Run();
+            //Decorator._3_Apply_Decorated_Ingredients_With_Builder.Example.Run();
+        }
+
+        private static void RunFinalWithTestingExamples()
+        {
+            Testing._1_With_Testing.Example.Run();
         }
     }
 }
